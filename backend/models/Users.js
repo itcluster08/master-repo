@@ -21,6 +21,10 @@ const Users = connection.define('User', {
 	password: {
 		type: DataTypes.STRING(255),
 		allowNull: false
+	},
+	shopper: {
+		type: DataTypes.JSONB,
+		default: {}
 	}
 })
 

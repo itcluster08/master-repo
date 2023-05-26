@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { MainNav } from "../components/main-nav";
-import Logo from "../assets/logo.png";
+import Logo from "../assets/logo.svg";
 import { UserButton } from "../components/user-button";
 
 interface iMainLayout {
@@ -26,7 +26,7 @@ export const MainLayout: React.FC<iMainLayout> = ({ children }) => {
           zIndex: "100",
         }}
       >
-        <Box sx={{ width: "4rem" }}>
+        <Box sx={{ width: "7rem" }}>
           <img
             src={Logo}
             alt="logo"

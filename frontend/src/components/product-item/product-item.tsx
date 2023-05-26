@@ -15,7 +15,7 @@ interface IProductProps {
 
 export const ProductItem: React.FC<IProductProps> = ({ product }) => {
   const { name, description, price, image, id } = product;
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(1);
 
   function addInCard() {
     axios("https://hackapi.aspire.su/addtouser", {
@@ -24,7 +24,7 @@ export const ProductItem: React.FC<IProductProps> = ({ product }) => {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
       data: {
-        userId: 1,
+        userId: JSON.parse(localStorage.getItem("user")!).id,
         product: id,
         count: count,
       },
@@ -49,12 +49,13 @@ export const ProductItem: React.FC<IProductProps> = ({ product }) => {
       <CardActions>
         <TextField
           value={count}
+          defaultValue={1}
           type="number"
           onChange={(e) => setCount(parseInt(e.target.value))}
         />
 
         <Button onClick={addInCard} size="small">
-          в карзину
+          в корзину
         </Button>
       </CardActions>
     </Card>

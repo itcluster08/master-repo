@@ -23,7 +23,7 @@ export const Products: React.FC = () => {
     <>
       <Grid container spacing={2}>
         {data?.map((product) => (
-          <Grid item xs={4}>
+          <Grid item xs={12} lg={4}>
             <ProductItem product={product} />
           </Grid>
         ))}

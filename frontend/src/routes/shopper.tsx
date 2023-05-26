@@ -45,7 +45,7 @@ export const Shopper: React.FC = () => {
     <>
       <Grid container spacing={2}>
         {shopper?.items.map((product, ind) => (
-          <Grid item xs={4}>
+          <Grid item xs={12} lg={4}>
             <Card sx={{ maxWidth: 345 }}>
               <CardMedia
                 sx={{ height: 140 }}
@@ -90,6 +90,9 @@ export const Shopper: React.FC = () => {
             </Card>
           </Grid>
         ))}
+
+        <br/>
+        <Button>Оплатить</Button>
       </Grid>
     </>
   );

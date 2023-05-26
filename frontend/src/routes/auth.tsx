@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Box, Button, ButtonGroup, Container } from "@mui/material";
+import { Alert, Box, Button, ButtonGroup, Container } from "@mui/material";
 import { LoginForm } from "../components/login-form";
 import { RegistrationForm } from "../components/registration-form";
 import { useNavigate } from "react-router-dom";
-import ky from "ky";
-
-const REGISTRATION_URL = "http://188.165.204.113:9411/api/oauth2/register";
-const AUTHORIZATION_URL = "http://188.165.204.113:9411/api/oauth2/login";
+import axios from "axios";
+// https://hackapi.aspire.su/
+const REGISTRATION_URL = "https://hackapi.aspire.su/register";
+const AUTHORIZATION_URL = "https://hackapi.aspire.su/login";
 
 export const Auth: React.FC = () => {
   const [mode, setMode] = useState<"login" | "registration">("login");
@@ -15,6 +15,8 @@ export const Auth: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const selectLoginMode = () => {
     setMode("login");
@@ -24,47 +26,71 @@ export const Auth: React.FC = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const navigate = useNavigate();
+    const user = localStorage.getItem("user");
+    if (user) {
       navigate("/home");
     }
   }, []);
 
   async function registration() {
     const data = {
-      firstName: "John",
-      secondName: "Doe",
-      username: "johndoe",
-      password: "password123",
+      firstName,
+      secondName: lastName,
+      username: login,
+      password,
     };
 
-    fetch(REGISTRATION_URL, {
+    axios(REGISTRATION_URL, {
       method: "POST",
-      mode: 'cors',
-      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
-      body: JSON.stringify(data),
+      data: data,
     })
-      .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        const code = data.data.statusCode || data.status;
+        console.log(data);
+
+        if (code === 200) {
+          localStorage.setItem("user", JSON.stringify(data.data));
+          navigate("/home");
+        } else {
+          setErrorMessage(data.data.message);
+        }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error:", error.response.data);
+        setErrorMessage(error.response.data.message);
       });
   }
 
   async function authorization() {
-    const json = await ky
-      .post(AUTHORIZATION_URL, {
-        json: { username: login, password },
-      })
-      .json();
+    const data = {
+      username: login,
+      password,
+    };
 
-    console.log(json);
+    axios(AUTHORIZATION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      data: data,
+    })
+      .then((data) => {
+        const code = data.data.statusCode || data.status;
+
+        if (code === 200) {
+          localStorage.setItem("user", JSON.stringify(data.data));
+          navigate("/home");
+        } else {
+          setErrorMessage(data.data.message);
+        }
+      })
+      .catch((error) => {
+        setErrorMessage(error.response.data.message);
+        console.error("Error:", error.response.data);
+      });
   }
 
   return (
@@ -115,6 +141,12 @@ export const Auth: React.FC = () => {
             handlePassword={(password) => setPassword(password)}
             handleSubmit={() => registration()}
           />
+        )}
+
+        {errorMessage && (
+          <Alert sx={{ mt: 1 }} severity="error">
+            {errorMessage}
+          </Alert>
         )}
       </Box>
     </Container>

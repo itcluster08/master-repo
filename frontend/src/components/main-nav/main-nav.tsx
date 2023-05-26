@@ -7,6 +7,7 @@ export const MainNav: React.FC = () => {
     <ButtonGroup variant="text">
       <Button onClick={() => navigate("/home")}>Главная</Button>
       <Button onClick={() => navigate("/products")}>Продукты</Button>
+      <Button onClick={() => navigate("/shopper")}>Корзина</Button>
     </ButtonGroup>
   );
 };

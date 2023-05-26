@@ -3,6 +3,7 @@ import { Root } from "./root";
 import { Auth } from "./auth";
 import { Home } from "./home";
 import { Products } from "./products";
+import { Shopper } from "./shopper";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/shopper",
+        element: <Shopper />,
       },
     ],
   },

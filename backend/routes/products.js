@@ -8,6 +8,12 @@ async function routes(fastify, options) {
 	})
 
 
+	fastify.get('/shopper', async (request, reply) => {
+		const { userId } = request.query;
+		const user = await Users.findByPk(userId);
+		if (!user.shopper.items) user.shopper.items = [];
+		return user.shopper;
+	})
 	fastify.post('/addtouser', async (request, reply) => {
 		const { userId, product, count } = request.body;
 
@@ -34,25 +40,12 @@ async function routes(fastify, options) {
 	})
 
 	fastify.post('/removefromuser', async (request, reply) => {
-		const { userId, product, count } = request.body;
+		const { userId, position } = request.body;
 
 		const user = await Users.findByPk(userId);
 		console.log(user.shopper)
-		if (!user.shopper?.items) {
-			console.log('first')
-			user.shopper = {
-				items: [{
-					product,
-					count
-				}]
-			}
-		} else {
-			console.log('second')
-			user.shopper.items.push({
-				product,
-				count
-			})
-		}
+		user.shopper.items.splice(position, 1)
+		console.log(user.shopper)
 
 		user.changed("shopper", true)
 		await user.save();

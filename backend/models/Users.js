@@ -24,7 +24,7 @@ const Users = connection.define('User', {
 	},
 	shopper: {
 		type: DataTypes.JSONB,
-		default: {}
+		defaultValue: {}
 	}
 })
 

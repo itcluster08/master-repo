@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export const UserButton: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [user, setUser] = React.useState<null | IUser>(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -20,8 +22,13 @@ export const UserButton: React.FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const userStringify: string = localStorage.getItem("user") || "";
-  const user: IUser = JSON.parse(userStringify);
+  useEffect(() => {
+    const userStr = localStorage.getItem("user") || "";
+    if (userStr) {
+      setUser(JSON.parse(userStr));
+    }
+  }, []);
+
   return (
     <div>
       <Button

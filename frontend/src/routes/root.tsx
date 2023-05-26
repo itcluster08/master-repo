@@ -7,10 +7,16 @@ export const Root: React.FC = () => {
 
   useEffect(() => {
     const user = localStorage.getItem("user");
+    console.log(user);
+
     if (!user) {
       navigate("/auth");
     }
   }, []);
 
-  return <MainLayout><Outlet /></MainLayout>;
+  return (
+    <MainLayout>
+      <Outlet />
+    </MainLayout>
+  );
 };

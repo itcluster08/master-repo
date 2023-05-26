@@ -10,7 +10,7 @@ async function routes(fastify, options) {
 					password: request.body.password
 				}
 			})
-
+	
 			if (!user) return {
 				statusCode: 404,
 				code: "ERR_WRONG_LOGIN",

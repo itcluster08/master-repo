@@ -49,7 +49,7 @@ export const UserButton: React.FC = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Карзина</MenuItem>
+        <MenuItem onClick={handleClose}>Корзина</MenuItem>
         <MenuItem onClick={handleLogout}>Выход</MenuItem>
       </Menu>
     </div>

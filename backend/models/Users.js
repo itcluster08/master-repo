@@ -6,7 +6,7 @@ const Users = connection.define('User', {
 		autoIncrement: true,
 		unique: true,
 		allowNull: false,
-		primaryKey: true
+		primaryKey: truen
 	},
 	username: {
 		type: DataTypes.STRING(30),

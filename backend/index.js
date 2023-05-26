@@ -3,9 +3,9 @@ require('dotenv').config()
 const fastify = require('fastify')({ logger: true });
 fastify.register(cors, {
 	origin: (origin, cb) => {
-		const hostname = new URL(origin).hostname
+		//const hostname = new URL(origin).hostname
 		cb(null, true)
-		return
+		//return
 	}
 })
 

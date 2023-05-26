@@ -1,20 +1,25 @@
-const cors = require('@fastify/cors');
 require('dotenv').config()
-const fastify = require('fastify')({ logger: true });
+
+const cors = require('@fastify/cors');
+const fastify = require('fastify')({ logger: false });
+const autoload = require('@fastify/autoload')
+
+
+fastify.register(require('@fastify/formbody'))
 fastify.register(cors, {
 	origin: (origin, cb) => {
-		//const hostname = new URL(origin).hostname
 		cb(null, true)
-		//return
 	}
 })
 
-// Declare a route
-fastify.get('/', async (request, reply) => {
-	return { hello: 'world' }
+fastify.register(autoload, {
+	dir: require('path').join(__dirname, 'routes')
 })
 
-// Run the server!
+fastify.get('/', async (request, reply) => {
+	return { message: 'Hello! API is operating.' }
+})
+
 const start = async () => {
 	try {
 		await fastify.listen({ port: 5400 })

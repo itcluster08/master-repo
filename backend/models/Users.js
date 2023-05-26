@@ -6,7 +6,7 @@ const Users = connection.define('User', {
 		autoIncrement: true,
 		unique: true,
 		allowNull: false,
-		primaryKey: truen
+		primaryKey: true
 	},
 	username: {
 		type: DataTypes.STRING(30),
@@ -23,3 +23,13 @@ const Users = connection.define('User', {
 		allowNull: false
 	}
 })
+
+Users.sync({ force: false })
+	.then(() => {
+		console.log('Таблица пользователей создана.');
+	})
+	.catch((error) => {
+		console.error('Ошибка при создании таблицы пользователей:', error);
+	});
+
+module.exports = Users;

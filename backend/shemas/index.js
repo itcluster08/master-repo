@@ -1,4 +1,5 @@
 module.exports = {
 	loginUserSchema: require('./loginUserSchema'),
-	registerUserSchema: require('./registerUserSchema')
+	registerUserSchema: require('./registerUserSchema'),
+	updateUserSchema: require('./updateUserSchema')
 }

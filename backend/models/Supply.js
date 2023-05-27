@@ -31,6 +31,11 @@ const Food = connection.define('Food', {
 	restockDay: {
 		type: DataTypes.INTEGER,
 		allowNull: true
+	},
+	rate: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		defaultValue: 5
 	}
 })
 

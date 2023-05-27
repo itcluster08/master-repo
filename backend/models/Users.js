@@ -13,6 +13,14 @@ const Users = connection.define('User', {
 		unique: true,
 		allowNull: false
 	},
+	firstName: {
+		type: DataTypes.STRING(30),
+		allowNull: false
+	},
+	secondName: {
+		type: DataTypes.STRING(30),
+		allowNull: false
+	},
 	role: {
 		type: DataTypes.ENUM('USER', 'SELLER', 'ADMIN'),
 		allowNull: false,
@@ -25,6 +33,13 @@ const Users = connection.define('User', {
 	shopper: {
 		type: DataTypes.JSONB,
 		defaultValue: {}
+	},
+	card_number: {
+		type: DataTypes.STRING(255)
+	},
+	farm_calendar: {
+		type: DataTypes.ARRAY(DataTypes.JSON),
+		defaultValue: []
 	}
 })
 

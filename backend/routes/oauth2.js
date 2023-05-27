@@ -1,7 +1,13 @@
-const { loginUserSchema, registerUserSchema } = require("../shemas");
+const { loginUserSchema, registerUserSchema, updateUserSchema } = require("../shemas");
 const { Users } = require("../models");
 
 async function routes(fastify, options) {
+	fastify.get('/user', async (request, reply) => {
+		const { userId } = request.query;
+		const user = await Users.findByPk(userId);
+		return user;
+	})
+
 	fastify.post('/login', loginUserSchema, async (request, reply) => {
 		try {
 			const user = await Users.findOne({
@@ -27,7 +33,9 @@ async function routes(fastify, options) {
 		try {
 			const user = await Users.create({
 				username: request.body.username,
-				password: request.body.password
+				password: request.body.password,
+				firstName: request.body.firstName,
+				secondName: request.body.secondName,
 			})
 			return user;
 		} catch (e) {
@@ -37,6 +45,30 @@ async function routes(fastify, options) {
 				message: "User with that username already exits"
 			}
 		}
+	})
+
+
+	fastify.post('/role', async (request, reply) => {
+		const user = await Users.findByPk(request.body.userId);
+		if (request.body.role) {
+			await user.update({
+				role: request.body.role
+			});
+			return user;
+		}
+	})
+	fastify.post('/update', updateUserSchema, async (request, reply) => {
+			const user = await Users.findByPk(request.body.userId);
+			if (user) {
+				await user.update({
+					firstName: request.body.firstName,
+					secondName: request.body.secondName,
+					card_number: request.body.card_number,
+					role: request.body.role
+				});
+			}
+
+			return user;
 	})
 }
 

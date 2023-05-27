@@ -20,7 +20,7 @@ const Seller = connection.define('Seller', {
 	}
 })
 
-Seller.sync({ force: false })
+Seller.sync({ force: true })
 	.then(() => {
 		console.log('Таблица продавцов создана.');
 	})
